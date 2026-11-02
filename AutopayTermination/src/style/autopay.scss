@@ -1,0 +1,98 @@
+.tableInput{
+    width: 100%;
+    border-radius:3px 3px 3px 3px;
+    background-color: #00ffd2;
+    margin-top:-5px;
+}
+.commonSelect{
+    background-color: #00ffd2;
+}
+input:focus{
+    background-color: white;
+}
+
+.tableHeader{
+    background-color: #F0F0F0;
+    font-weight: bold;
+    font-size: 14;
+    color: #003E3E
+}
+.redHighlight{
+    color:red
+}
+
+.tableContent{
+    font-size: 14;
+    color: #003E3E
+}
+
+.tipContent{
+    font-size: 10;
+    color: #003E3E;
+    background-color: #F0F0F0;
+    font-weight: bold;
+}
+
+.headerContent{
+    font-size: 10;
+    color: #003E3E;
+    background-color: #F0F0F0;
+}
+
+.uploadContent{
+    font-size: 9;
+    color: #003E3E;
+    background-color: #F0F0F0;
+}
+
+.confirmPopup{
+    position:fixed;
+    right:50%;
+    top:50%;
+    text-align: center;
+}
+
+.confirmPopupContent{
+    background-color: #5B5B5B;
+    color:white;
+    
+}
+
+
+.confirmPopupButton{
+    background-color: #9D9D9D;
+    height: 25px;
+    width: 80px;
+    font-size: 13px;
+    border-radius: 5px;
+    border-color: #0a1179;
+}
+
+.confirmPopupButtonNo{
+    background-color: #9D9D9D;
+    height: 25px;
+    width: 80px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+yesbutton:focus{
+    background-color: white;
+}
+
+.ReactTable .rt-td {
+    white-space: initial;
+}
+
+.ReactTable .rt-thead {
+    overflow-y: scroll;
+}
+
+.tab-content .tab-pane.active {
+    max-height: 500px;
+}
+
+.datePicker input {
+  width: 150px;
+  height: 20px;
+}

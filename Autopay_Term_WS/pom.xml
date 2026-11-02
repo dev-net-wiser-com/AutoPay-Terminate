@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>3.5.16</version><relativePath/></parent>
+  <groupId>com.hkhs.hmms</groupId><artifactId>Autopay_Term_WS</artifactId><version>1.0.0</version><packaging>war</packaging>
+  <name>AutoPay Termination SOAP Services</name>
+  <properties><java.version>21</java.version><cxf.version>4.1.9</cxf.version><env>prd</env></properties>
+  <dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-logging</artifactId>
+      <exclusions>
+        <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-api</artifactId></exclusion>
+        <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-to-slf4j</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.cxf</groupId><artifactId>cxf-spring-boot-starter-jaxws</artifactId><version>${cxf.version}</version></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-jdbc</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-tomcat</artifactId><scope>provided</scope></dependency>
+    <!-- Oracle JDBC driver for PL/SQL calls. -->
+    <dependency><groupId>com.oracle.database.jdbc</groupId><artifactId>ojdbc11</artifactId><scope>runtime</scope></dependency>
+    <!-- Retain legacy JSON rules until response snapshots can be compared on 83. -->
+    <dependency><groupId>net.sf.json-lib</groupId><artifactId>json-lib</artifactId><version>2.4</version><classifier>jdk15</classifier>
+      <exclusions><exclusion><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId></exclusion></exclusions>
+    </dependency>
+    <dependency><groupId>commons-beanutils</groupId><artifactId>commons-beanutils</artifactId><version>1.11.0</version>
+      <exclusions><exclusion><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId></exclusion></exclusions>
+    </dependency>
+    <dependency><groupId>commons-collections</groupId><artifactId>commons-collections</artifactId><version>3.2.2</version></dependency>
+  </dependencies>
+  <profiles>
+    <profile><id>local</id><properties><env>local</env></properties></profile>
+    <profile><id>prd</id><activation><activeByDefault>true</activeByDefault></activation><properties><env>prd</env></properties></profile>
+  </profiles>
+  <build>
+    <finalName>Autopay_Term_WS</finalName>
+    <resources>
+      <resource><directory>src/main/resources</directory><filtering>false</filtering><excludes><exclude>local/**</exclude><exclude>prd/**</exclude></excludes></resource>
+      <resource><directory>src/main/resources/${env}</directory><filtering>false</filtering></resource>
+    </resources>
+    <plugins>
+      <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-enforcer-plugin</artifactId><version>3.6.2</version>
+        <executions><execution><id>runtime-baseline</id><goals><goal>enforce</goal></goals><configuration><rules>
+          <requireJavaVersion><version>[21,22)</version></requireJavaVersion><requireMavenVersion><version>[3.9,)</version></requireMavenVersion>
+        </rules></configuration></execution></executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

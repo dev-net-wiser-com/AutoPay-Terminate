@@ -1,0 +1,66 @@
+<!-- # HTML5-Base common 2022.09.30 -->
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+
+<head>
+    <meta charset="utf-8">
+    <link href="node_modules/jquery/dist/jquery.min.js">
+    <link rel = "icon" href = "ih_fav.ico" type = "image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>iHousing</title>
+    <script>
+        function saveSession(name, value) {
+            if (typeof (value) == "object") {
+                value = JSON.stringify(value);
+            }
+            sessionStorage[name] = value;
+        }
+
+        if (window.location.search.split('?').length > 1) {
+            var name = getUrlParam("ps");
+            saveSession("ps", name);
+            var moduleName = getUrlParam("moduleName");
+            console.log("moduleName: " + moduleName);
+            if (moduleName) {
+                if (moduleName.match(/_(\S*)_/)) {
+                    var _module = moduleName.match(/_(\S*)_/)[1];
+                    window.location.href = "http://" + window.location.host + "/" + _module + "/#/" + moduleName;
+                }
+            }
+
+        }
+
+        function getHashParameters() {
+            if (window.location.search.split('?').length > 1) {
+                var arr = window.location.search.split('?')[1].split('&');
+                var params = {}
+                for (var i = 0; i < arr.length; i++) {
+                    var data = arr[i].split('=')
+                    if (data.length === 2) {
+                        params[data[0]] = data[1]
+                    }
+                }
+                return params
+            }
+            return null
+        }
+
+        function getUrlParam(name) {
+            var params = getHashParameters();
+            if (params) {
+                return params[name]
+            }
+            return null
+        }
+    </script>
+</head>
+
+<body style="height:100%">
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root" style="height:100%"></div>
+</body>
+
+</html>

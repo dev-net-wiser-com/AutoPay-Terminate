@@ -1,0 +1,70 @@
+{
+  "comment": "HTML5-Base template 2022.06.16",
+  "comment-name": "HTML5-Base template: change name below",
+  "name": "ihousing-autopay-ui",
+  "version": "1.0.0",
+  "comment-description": "HTML5-Base template: change description below",
+  "description": "iHousing Autopay UI",
+  "private": true,
+  "comment-dependencies": "HTML5-Base template: add module specific dependency after [react]",
+  "dependencies": {
+    "@microsoft/sp-polyfills": "^1.7.0",
+    "babel-polyfill": "^6.26.0",
+    "bootstrap": "^4.6.0",
+    "copy-to-clipboard": "^3.2.0",
+    "currency-formatter": "^1.5.9",
+    "hooks": "^0.3.2",
+    "immutable": "^4.0.0-rc.12",
+    "jquery": "^3.3.1",
+    "jquery.soap": "^1.7.3",
+    "react-alert-confirm": "^1.3.2",
+    "react-bootstrap": "^1.6.0",
+    "react-bootstrap-table-next": "^4.0.3",
+    "react-bootstrap-table2-editor": "^1.4.0",
+    "react-native-react-native-currency-formatter": "^1.0.0",
+    "react-confirm-alert": "^2.7.0",
+    "react-datepicker": "^4.6.0",
+    "react-dom": "^16.5.2",
+    "react-dropdown": "^1.6.4",
+    "react-input-calendar": "^0.5.4",
+    "moment-range": "^1.2.0",
+    "react-redux": "^5.1.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "4.0.3",
+    "react-table": "6.8.6",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "react": "^16.5.2",
+    "moment": "2.29.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "node-sass": "^4.14.1",
+    "history": "^4.7.2",
+    "http-proxy-middleware": "0.19.1"
+  },
+  "main": "index.js",
+  "homepage-description": "HTML5-Base template: change context root below",
+  "homepage": "/autopay",
+  "author": "HKHS ITS",
+  "license": "HKHS ITS",
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
+  }
+}

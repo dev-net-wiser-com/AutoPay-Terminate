@@ -1,0 +1,15 @@
+# Configure the Credential Store used for the three ihousing.db.* system properties.
+# Run on the target WildFly server before deploying the prd WAR.
+if (outcome != success) of /subsystem=elytron/secret-key-credential-store=autopayExpressionStore:read-resource
+    /subsystem=elytron/secret-key-credential-store=autopayExpressionStore:add(path="autopay-expression-store.cs",relative-to=jboss.server.config.dir,create=true,populate=true)
+end-if
+
+if (outcome != success) of /subsystem=elytron/expression=encryption:read-resource
+    /subsystem=elytron/expression=encryption:add(resolvers=[{name=autopay-resolver,credential-store=autopayExpressionStore,secret-key=key}])
+else
+    echo An encryption resolver configuration already exists. Inspect its resolvers and register autopay-resolver if absent; see README.md. Existing resolvers are not overwritten.
+end-if
+
+# This script does not create a JNDI datasource and does not set database values.
+# Generate encrypted expressions and bind ihousing.db.url/username/password
+# according to README.md. No actual database credentials are included here.

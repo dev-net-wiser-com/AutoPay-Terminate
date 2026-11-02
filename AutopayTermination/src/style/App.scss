@@ -1,0 +1,571 @@
+// HTML5-Base common 2022.11.09
+@import './vars.scss';
+
+.app-logo{
+    //display:table-cell;vertical-align:middle;width:100%;height:60px;
+    .logo{
+        height: 60px;
+        size: 60px;
+        margin: 5px;
+    }
+    padding: 5px 0;
+}
+
+.grad1 {
+    height: 10px;
+    background: -webkit-linear-gradient(#501515,#9c2831); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#501515,#9c2831); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#501515,#9c2831); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#501515,#9c2831);
+}
+.grad2 {
+    min-height: 22px;
+    background: -webkit-linear-gradient(#fff,#dddddd); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#fff,#dddddd); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#fff,#dddddd); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#fff,#dddddd); /* 标准的语法 */
+    border-top:1px solid #B5BBBD;
+    border-bottom:1px solid #8E8F8D;
+    margin-top: 4px;
+    padding-left: 20px;
+    //font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+//function title bar, narrow
+.navigation{
+    background: #186BAD;
+    height: 30px; //26px;
+    color: #fff;
+    padding-right: 10px;
+    padding-left: 20px;
+    span{
+        display: inline-block;
+        height: 26px;
+        line-height: 26px;
+      }
+}
+.app-user{
+    float: right;
+    margin-top: 19px;
+    margin-right: 10px;
+    p{
+        text-align: right;
+        display: block;
+        margin: 0;
+        line-height: 20px;
+    }
+}
+.app-top{
+    float: right;
+    margin-top: 19px;
+    .btn-out{
+        float: right;
+        padding: 4px 12px;
+        margin-top: 3px;
+        border-radius: 2px;border: 1px solid #949C9C;
+        background: -webkit-linear-gradient(#fff,#CFCFCF); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#fff,#CFCFCF); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#fff,#CFCFCF); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#fff,#CFCFCF); /* 标准的语法 */
+    }
+}
+.select-size{
+    input[type=button]{
+        border: 1px solid #777B7C;
+        width: 22px;
+        height: 22px;
+        background-color: #ffffff;
+        background-position: 50%;
+    }
+    input[type=button]:first-child{
+        border-radius: 5px 0 0 5px;
+        background-image: url("../img/icon-s.png");
+    }
+    input[type=button]:nth-child(2){
+        background-image: url("../img/icon-l.png");
+    }
+    input[type=button]:last-child{
+        border-radius: 0 5px 5px 0;
+        background-image: url("../img/icon-e.png");
+    }
+    input[type=button]:hover{
+        border: 1px solid #3A7297;
+        box-shadow:0px 0px 2px 2px rgba(56, 113, 155, .8) inset;
+    }
+    .active{
+        border: 1px solid #3A7297;
+        box-shadow:0px 0px 2px 2px rgba(56, 113, 155, .8) inset;
+    }
+}
+.s-app, .l-app, .e-app{
+  font-family: Arial, Helvetica, sans-serif;
+  width: 99%;
+  margin-left: 0.5%;
+  height: 100%;
+  min-width:  $PAGE_MIN_WIDTH;
+  .panel{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+.s-app{
+    font-size: $S_FONT_SIZE_1;
+    .navigation .panel-title{
+        float: left;
+        font-size: $S_FONT_SIZE_1;  //12px;
+        vertical-align: middle;
+    }
+    .font1,.navbar-brand{font-size: $S_FONT_SIZE_2;}
+    h1{font-size: $S_FONT_SIZE_3;color: #62A0CB;font-weight: 600;}
+    .button-blue,.button-white,button,input,select{font-size: $S_FONT_SIZE_1;}
+}
+.l-app{
+    font-size: $L_FONT_SIZE_1;
+    .navigation .panel-title{
+        float: left;
+        font-size: $L_FONT_SIZE_1;//14px;
+        vertical-align: middle;
+    }
+    .font1,.navbar-brand{font-size: $L_FONT_SIZE_2;}
+    h1{font-size: $L_FONT_SIZE_3;color: #62A0CB;font-weight: 600;}
+    .button-blue,.button-white,button,input,select{font-size: $L_FONT_SIZE_1;}
+}
+.e-app{
+    font-size: $E_FONT_SIZE_1;
+    .navigation .panel-title{
+        float: left;
+        font-size: $E_FONT_SIZE_1 ; //17px;
+        vertical-align: middle;
+    }
+    .font1,.navbar-brand{font-size: $E_FONT_SIZE_2;}
+    h1{font-size: $E_FONT_SIZE_3;color: #62A0CB;font-weight: 600;}
+    .button-blue,.button-white,button,input,select{font-size: $E_FONT_SIZE_1;}
+}
+.nav-button{
+    height: 100%;
+    line-height: 100%;
+    float: right;
+    border: 1px solid #949C9C;
+    background: rgba(255, 255, 255, .4);
+    background: -webkit-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* 标准的语法 */
+    border-radius: 5px;
+    margin-left: 10px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.nav-button:hover,.nav-button:disabled{
+    color: #000000;
+    background: rgba(255, 255, 255, .8);
+}
+.nav-button:disabled{
+    cursor: default;
+}
+.bg-main{
+    min-height: 87%;
+    margin-top: 0;
+    overflow: hidden;
+    background: -webkit-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(247, 243, 247),#DEDFDE); /* 标准的语法 */
+    color: rgba(11, 51, 60, 1); 
+    .systemName,.version,.resolution,.error{
+        margin-left: 176px;
+        font-weight: 600;
+        padding: 0;
+    }
+    .systemName{
+        margin-top: 44px;
+        font-size: 22px;
+    }
+    .version{
+        margin-top: 20px;
+        font-size: 22px;
+    }
+    .resolution{
+        margin-top:20px;
+        font-size: 16px;
+        font-style: italic;
+    }
+    .error{
+        margin-top:20px;
+        font-size: 16px;
+        font-style: normal;
+    }
+    .errorResource{
+        font-weight: normal;
+    }
+}
+.panel{
+    width: 100%;
+    //background: #EFEFEF;
+    background: -webkit-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(247, 243, 247),#DEDFDE); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(247, 243, 247),#DEDFDE); /* 标准的语法 */
+    overflow: hidden;
+    min-height: 100%;
+    
+    .panel-head{
+        // width: 100%;
+        background: #EFEFEF;
+        padding: 5px 8px;
+        .line-head{
+            padding: 5px 0px;
+            width: 100%;
+            display: flex;
+            //align-items: flex-end;
+            align-items: center;
+            //vertical-align: middle;
+            >span, input, button, select {display: block;float: left;margin-right: 20px;}
+            >span, select{height: 26px;line-height: 26px;}
+            input{height:20px;}
+            input[type=button],input[type=submit],button{
+                height: 26px;
+                border-radius: 5px;border: 1px solid #949C9C;
+                background: rgba(255, 255, 255, .4);
+                background: -webkit-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Safari 5.1 - 6.0 */
+                background: -o-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Opera 11.1 - 12.0 */
+                background: -moz-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Firefox 3.6 - 15 */
+                background: linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* 标准的语法 */
+            }
+            .input-calendar {
+                float: left;
+                margin-right: 25px;
+                span{float: none;}
+            }
+        }
+    }
+    .panel-content{
+    width: $PAGE_WIDTH;
+    background: #EFEFEF;
+    overflow: hidden;
+    min-height: 100%;
+    .line-head{
+        padding: 5px 0px;
+        width: 100%;
+        //display: table;
+        vertical-align: middle;
+        span, input, button, select {display: block;float: left;margin-right: 20px;height: 26px;line-height: 26px;}
+        input[type=button],input[type=submit],button{
+            border-radius: 5px;border: 1px solid #949C9C;
+            background: rgba(255, 255, 255, .4);
+            background: -webkit-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Firefox 3.6 - 15 */
+            background: linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* 标准的语法 */
+        }
+    }
+        .line-detail1{
+            padding: 5px 0px;
+            width: 100%;
+            display: float;
+            vertical-align: middle;
+            ReactTable, span, input, button, select {display: table-cell;float: left;margin-right: 20px; }
+            select,input{height: 26px;}
+            input, select {
+                -webkit-box-sizing: border-box;
+                   -moz-box-sizing: border-box;
+                        box-sizing: border-box;
+            }
+            input[type=button],input[type=submit],button{
+                border-radius: 5px;border: 1px solid #949C9C;
+                background: rgba(255, 255, 255, .4);
+                background: -webkit-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Safari 5.1 - 6.0 */
+                background: -o-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Opera 11.1 - 12.0 */
+                background: -moz-linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* Firefox 3.6 - 15 */
+                background: linear-gradient(rgba(255, 255, 255, .8),rgba(255, 255, 255, .2)); /* 标准的语法 */
+            }
+        }
+    }
+}
+.w1{width: 100px;}
+.w2{width: 120px;}
+.w3{width: 200px;}
+.w4{width: 320px;}
+.w5{width: 1000px;}
+.w6{width: 800px;}
+.w7{width: 620px;}
+.w8{width: 204px;}
+.w3-select{width: 204px;}
+.h1{height:20px;}
+.margin-right1{margin-right: 50px; }
+.margin-right2{margin-right: 10px; }
+.margin-right3{margin-right: 5px; }
+.margin-top1{margin-top: 50px; }
+.margin-top2{margin-top: 30px; }
+.margin-top3{margin-top: 20px; }
+.margin-top4{margin-top: 10px; }
+.fl-left{float: left;}
+.fl-right{float: right;}
+.hidden{display: none;}
+.text-blod{font-weight: bold;}
+.text-right{text-align: right;}
+.button-blue{
+    background: #4285F4;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    padding: 8px 20px;
+    box-shadow:2px 3px rgba(56, 113, 155, .2);
+}
+.button-white{
+    background: #fff;
+    border-radius: 3px;
+    border: 1px solid #D8D8D8;
+    padding: 8px 20px;
+}
+.inpt1{
+    padding: 8px 20px;
+    border: none;
+}
+
+  .ReactTable .-loading {
+    z-index: -1;
+  }
+  .ReactTable .-loading.-active {
+    z-index: 2;
+  }
+
+  .wordwrap {
+    white-space: pre-line !important;
+    word-wrap: break-word;
+  }
+
+  .ReactTable input.checkbox {
+	-webkit-appearance: checkbox;
+    appearance: checkbox;
+  }
+
+  .br{white-space: pre-wrap; }
+
+html, body, #app, #app>div {
+  height: 100%
+}
+
+
+//zgl  20190715
+.colorBlue{
+  color:blue;
+}
+.colorRed{
+  color:red;
+}
+.h26{
+  height: 26px!important;
+}
+
+.loading-page{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    background: rgba(0, 0, 0, .1) url("../img/l-load.gif") no-repeat center;
+    z-index: 100;
+}
+
+.react-confirm-alert-body{
+    h1{font-size: $L_FONT_SIZE_3;}
+}
+
+
+.mainPop .modal-dialog{
+    position:fixed;
+    bottom: 0rem;
+    right:1rem;
+    width:40rem;
+}
+
+//Function name title bar
+.navbar-hmms{
+    color:#FFFFFF;
+    background-color: #186BAD;
+    height: 40px;
+  }
+  
+//   .navbar-brand{
+//      font-size:16px !important;
+//   }
+// moved to x-app to allow resize
+  
+  .sectionTitle{
+    font-weight:bold;
+    text-decoration:underline;
+  }
+  
+  .mainPanel{
+    overflow: hidden;
+    width:100%;
+  }
+ 
+  .transfer_btn_save{
+    margin-left:750px;
+  }
+ 
+  .background_color{
+      background-color: #186BAD;
+      color:white;
+
+  }
+
+.tabsContent {
+    padding: 10px;
+    border: 1px solid #CBCBCB;
+}
+
+.nav-tabs {
+    border-bottom: none !important;
+}
+
+.nav-tabs .nav-link {
+    background: #E0E0E0;
+    border: 1px solid #CBCBCB !important;
+    color: #777777;
+    font-weight: bold;
+}
+
+.nav-tabs .nav-link.active {
+    background: #F0F0F0 !important;
+    border: 1px solid #CBCBCB !important;
+    border-bottom: none !important;
+    color: #003E3E !important;
+    font-weight: bold;
+}
+
+.ReactTable .rt-thead {
+    // overflow-y: auto;
+    //to keep Columns and Headers are aligned for always showing scrollbar, //https://github.com/TanStack/table/issues/430
+    overflow-y: scroll !important;
+}
+
+.ReactTable .rt-tbody {
+    // overflow-y: auto;
+    //to keep Columns and Headers are aligned for always showing scrollbar, //https://github.com/TanStack/table/issues/430
+    overflow-y: scroll !important;
+}
+
+//ihousing function style 1. To use, set className="ih-fs1"
+    // using modules: PMM
+    // background: light gray
+    // Text color: dark green
+    // label:bold, content not bold
+.ih-fs1 {
+    // font-size: 10;
+    color: #003E3E;
+    background-color: #F0F0F0;
+    // font-weight: bold;
+    .nav-tabs .nav-link {
+        background: #E0E0E0;
+        border: 1px solid #CBCBCB !important;
+        color: #777777;
+        font-weight: normal;
+    }
+    
+    .nav-tabs .nav-link.active {
+        // background: #F0F0F0 !important;  //inherrit
+        border: 1px solid #CBCBCB !important;
+        border-bottom: none !important;
+        // color: #003E3E !important;  //inherrit
+        font-weight: bold;
+    }
+    // Tab compoenent will look like it is wrapped
+    .tab-content .tab-pane.active {
+        padding: 10px;
+        border: 1px solid #CBCBCB;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .rt-th, label {
+        font-weight: bold;
+    }
+
+}
+
+
+//ihousing function style 2. To use, set className="ih-fs2"
+    // using modules: Tenancy
+    // background: light gray    
+    // Text color: dark green
+    // label:not bold, content bold
+    .ih-fs2 {
+        // font-size: 10;
+        color: #003E3E;
+        background-color: #F0F0F0;
+        // font-weight: bold;
+        .nav-tabs .nav-link {
+            background: #E0E0E0;
+            border: 1px solid #CBCBCB !important;
+            color: #777777;
+            font-weight: normal;
+        }
+        
+        .nav-tabs .nav-link.active {
+            // background: #F0F0F0 !important;  //inherrit
+            border: 1px solid #CBCBCB !important;
+            border-bottom: none !important;
+            // color: #003E3E !important;  //inherrit
+            font-weight: normal;
+        }
+
+        .tab-content .tab-pane.active {
+            padding: 10px;
+            border: 1px solid #CBCBCB;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    
+        .rt-th, label {
+            font-weight: bold;
+        }
+    }
+
+    
+//ihousing function style 3. To use, set className="ih-fs3"
+    // using modules: Tenancy-parties
+    // background: white
+    // Text color: black
+    // label: bold, content not bold
+    .ih-fs3 {
+        // font-size: 10;
+        color: #000000;
+        background-color: #FFFFFF;
+        // font-weight: bold;
+        .nav-tabs .nav-link {
+            background: #E0E0E0;
+            border: 1px solid #CBCBCB !important;
+            color: #777777;
+            font-weight: normal;
+        }
+        
+        .nav-tabs .nav-link.active {
+            // background: #F0F0F0 !important;  //inherrit
+            background: #ffffff  !important;
+            border: 1px solid #CBCBCB !important;
+            border-bottom: none !important;
+            color: #000000 !important;  //inherrit
+            font-weight: bold;
+        }
+
+        .tab-content .tab-pane.active {
+            padding: 10px;
+            border: 1px solid #CBCBCB;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .tabsContent {
+            padding: 5px;
+            border: 0px solid #CBCBCB;
+        }
+        
+        .rt-th, label {
+            font-weight: bold;
+        }
+    
+    }

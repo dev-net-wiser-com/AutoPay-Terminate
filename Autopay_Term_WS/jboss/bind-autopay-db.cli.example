@@ -1,0 +1,8 @@
+# TEMPLATE ONLY: replace each REPLACE_* token with the encrypted payload returned
+# by create-expression. Keep the literal ${ENC::...} expression intact.
+# If a system property already exists, review it and use write-attribute instead.
+batch
+/system-property=ihousing.db.url:add(value="${ENC::autopay-resolver:REPLACE_URL_PAYLOAD}")
+/system-property=ihousing.db.username:add(value="${ENC::autopay-resolver:REPLACE_USERNAME_PAYLOAD}")
+/system-property=ihousing.db.password:add(value="${ENC::autopay-resolver:REPLACE_PASSWORD_PAYLOAD}")
+run-batch
