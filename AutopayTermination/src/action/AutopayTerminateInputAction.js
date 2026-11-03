@@ -22,7 +22,6 @@ const actions = {
             const valueDate = await callSoap('autopay', 'GetValueDate');
             if (!parseDate(valueDate)) throw new Error('No valid termination date was returned by the backend.');
             dispatch(actions.changeValue('valueDate', valueDate));
-            dispatch(actions.changeValue('terminationList', [blankRow(valueDate)]));
         } catch (error) { report(dispatch, error); }
         finally { dispatch(actions.changeValue('isLoading', false)); }
     },
@@ -101,7 +100,9 @@ const actions = {
             if (!/^\d+$/.test(result.trim()) || Number(result) !== rows.length) {
                 throw new Error(`Unexpected save result: ${result}. Check the backend before submitting again.`);
             }
-            dispatch(actions.changeValue('terminationList', [blankRow(state.valueDate)]));
+            dispatch(actions.changeValue('terminationList', []));
+            dispatch(actions.changeValue('rowEdit', -1));
+            dispatch(actions.changeValue('rowMouseOver', -1));
             dispatch(msgActions.incrementMsg('info', `${result} termination record(s) saved.`));
         } catch (error) { report(dispatch, error); }
         finally { dispatch(actions.changeValue('isLoading', false)); }
