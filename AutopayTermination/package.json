@@ -54,6 +54,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint": "7.32.0",
     "node-sass": "^4.14.1",
     "history": "^4.7.2",
     "http-proxy-middleware": "0.19.1"

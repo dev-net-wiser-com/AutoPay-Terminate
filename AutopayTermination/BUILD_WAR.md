@@ -46,8 +46,7 @@ If no validated project lockfile exists yet, run on server 83 using npm 6:
 
 ```bat
 npm.cmd install --production=false
-npm.cmd run build
-mvn clean package -Dskip.npm=true
+mvn clean package
 ```
 
 After installation and the build succeed, keep and commit this project's package-lock.json. npm 6 produces lockfileVersion 1. If the file has already been generated successfully on server 83, retain it instead of regenerating it unnecessarily.
@@ -60,7 +59,30 @@ mvn clean package
 
 The POM runs npm ci --production=false and then npm run build. A missing or mismatched lockfile makes npm ci fail. Windows uses npm.cmd automatically. The WAR output is target/autopay.war.
 
+Stop any running npm start process before packaging, because npm ci replaces node_modules. If Maven reports an npm-ci failure, inspect the earlier npm error lines above the Maven stack trace. Check that package-lock.json exists and matches package.json; node_modules alone does not satisfy npm ci.
+
+If React has already been built separately with npm.cmd run build, package the existing build using mvn package "-Dskip.npm=true" (without clean). The clean goal deletes the React build directory, so mvn clean package "-Dskip.npm=true" must not be used for that workflow.
+
 node-sass requires the native binary matching Node 14. If its download fails, check the server proxy, cache and build tools. Do not upgrade Node or run npm audit fix as an installation workaround.
+
+### ESLint plugin resolution on npm 6
+
+The frontend explicitly pins eslint 7.32.0 as a development dependency. This satisfies react-scripts 4.0.3's ESLint 7 requirement and makes ESLint available to plugins installed at the project level. A nested ESLint under react-scripts alone may not be reachable from those plugins. The observed build error was: Failed to load plugin 'flowtype': Cannot find module 'eslint/lib/rules/no-unused-expressions'.
+
+After copying the updated package.json to server 83, update this project's existing lockfile and installation:
+
+```bat
+npm.cmd install --production=false --no-audit --no-fund --progress=false
+```
+
+Only after installation succeeds, check the resolved version and rule path:
+
+```bat
+node -p "require('eslint/package.json').version"
+node -p "require.resolve('eslint/lib/rules/no-unused-expressions')"
+```
+
+The version must be 7.32.0 and the second command must resolve a file. Then run npm.cmd run build; only after that succeeds, run mvn package "-Dskip.npm=true" (without clean). Keep the updated package-lock.json with package.json after successful validation. Use npm install for this manifest change; npm ci requires the lockfile to match first. Do not disable ESLint or install the latest ESLint to bypass the error.
 
 ## Optional development server
 
@@ -119,3 +141,8 @@ This frontend change does not modify or upgrade the backend. The old backend sti
 6. Upload and termination invoke real database writes. Other/Testing/SampleFiles contains historical files without complete fixture data or expected results; their presence does not establish successful business validation.
 
 Workstation checks were static and used simulated responses. No npm installation, React/Maven build, remote deployment or database execution was performed on the workstation.
+
+
+### PowerShell Maven arguments
+
+In Windows PowerShell, quote the complete Maven property argument: mvn package "-Dskip.npm=true". An unquoted argument can result in Unknown lifecycle phase ".npm=true". This is an argument parsing failure; an already successful React build does not need to be repeated. Do not add clean when packaging the existing build directory.
