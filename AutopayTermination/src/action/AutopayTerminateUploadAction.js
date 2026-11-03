@@ -6,6 +6,13 @@ import { getFileDownloadUrl } from '../service/service';
 import { callSoap, uploadAttachment, queryString, parseList, languageOf, parseDate } from '../service/autopayApi';
 
 const report = (dispatch, error) => dispatch(msgActions.incrementMsg('error', error.message || String(error)));
+const validateFileName = name => {
+    // APT_FILE_NAME permits 20 bytes, including the extension. Check before
+    // creating the shared attachment as well as the AutoPay upload log.
+    if (new TextEncoder().encode(name).length > 20) {
+        throw new Error('Filename must be at most 20 UTF-8 bytes including the extension. Rename the file before uploading.');
+    }
+};
 const businessDateOf = configXml => {
     const xml = new DOMParser().parseFromString(configXml, 'text/xml');
     const today = Array.from(xml.getElementsByTagName('*')).find(node => node.localName === 'today');
@@ -63,6 +70,7 @@ const actions = {
         const state = getState().AutopayTerminateUploadReducer;
         if (!file || state.isLoading || !state.ready) return;
         try {
+            validateFileName(file.name);
             const config = state.attachmentConfig;
             const extensions = String(config.uploadExtension || '').split(/[;,|\s]+/).filter(Boolean)
                 .map(value => value.replace(/^\*?\.?/, '').toLowerCase());
@@ -90,6 +98,8 @@ const actions = {
         dispatch(actions.changeValue('isLoading', true));
         const config = state.attachmentConfig;
         try {
+            // Validate the entire selection before any file/attachment writes.
+            state.uploadLogList.filter(item => item.uploadFlag).forEach(row => validateFileName(row.fileName));
             for (const row of state.uploadLogList.filter(item => item.uploadFlag)) {
                 // Attempt each file once; do not automatically retry database writes after a failed response.
                 const update = patch => dispatch(actions.changeValue('uploadLogList',
