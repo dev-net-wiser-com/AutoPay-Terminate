@@ -41,7 +41,11 @@ private final static String SQL_GET_UPLOAD_LOG =
 			+ " 		 where APT_ID=HST_AUTOPAY_TERM_LOG.APT_ID and \n"
 			+ " 		 APTD_ID= (select MIN(APTD_ID) from HST_AUTOPAY_TERM_DETAIL_LOG where APT_ID=HST_AUTOPAY_TERM_LOG.APT_ID and APTD_STATUS='FAIL') ) FIRST_ERROR \n"
 			+ " FROM HST_AUTOPAY_TERM_LOG "
-			+ " WHERE APT_UPLOAD_THRU<>'S' AND APT_UPLOAD_TIME between trunc(SYSDATE)-30 and ?+0.99 order by APT_UPLOAD_TIME DESC \n";
+            // Uploads use SYSDATE, while an open browser can retain yesterday's
+            // business date. Include the current server day and its final minutes.
+            + " WHERE APT_UPLOAD_THRU<>'S' AND APT_UPLOAD_TIME >= TRUNC(SYSDATE)-30 "
+            + " AND APT_UPLOAD_TIME < GREATEST(TRUNC(CAST(? AS DATE)),TRUNC(SYSDATE))+1 "
+            + " ORDER BY APT_UPLOAD_TIME DESC \n";
 private final static String SQL_INSERT_UPLOAD_LOG
 	        = " INSERT INTO HST_AUTOPAY_TERM_LOG (APT_ID, APT_UPLOAD_THRU, APT_FILE_NAME, "
 			+ " APT_UPLOAD_BY, APT_UPLOAD_TIME, "

@@ -6,6 +6,13 @@ import { getFileDownloadUrl } from '../service/service';
 import { callSoap, uploadAttachment, queryString, parseList, languageOf, parseDate } from '../service/autopayApi';
 
 const report = (dispatch, error) => dispatch(msgActions.incrementMsg('error', error.message || String(error)));
+const businessDateOf = configXml => {
+    const xml = new DOMParser().parseFromString(configXml, 'text/xml');
+    const today = Array.from(xml.getElementsByTagName('*')).find(node => node.localName === 'today');
+    const date = today ? today.textContent.trim() : '';
+    if (!parseDate(date)) throw new Error('HMMSService did not return a valid business date.');
+    return date;
+};
 let nextFileKey = 0;
 const actions = {
     initData: () => ({ type: types.INIT_DATA }),
@@ -20,10 +27,7 @@ const actions = {
                 callSoap('manager', 'selectAttachmentConfigByScreenIdAndRefId', { screenId: 'D.APT001', refId: 'TOKEN_BR' }),
                 callSoap('autopay', 'fetchUploadPath')
             ]);
-            const xml = new DOMParser().parseFromString(configXml, 'text/xml');
-            const today = Array.from(xml.getElementsByTagName('*')).find(node => node.localName === 'today');
-            const date = today ? today.textContent.trim() : '';
-            if (!parseDate(date)) throw new Error('HMMSService did not return a valid business date.');
+            const date = businessDateOf(configXml);
             const config = JSON.parse(attachmentText);
             if (!config || !/^\d+$/.test(String(config.id)) || Number(config.id) <= 0 ||
                 config.screenId !== 'D.APT001' || config.refId !== 'TOKEN_BR') {
@@ -33,17 +37,27 @@ const actions = {
             dispatch(actions.changeValue('date', date));
             dispatch(actions.changeValue('attachmentConfig', config));
             dispatch(actions.changeValue('uploadPath', uploadPath));
-            await dispatch(actions.initLookupUploadLog());
+            await dispatch(actions.initLookupUploadLog(false));
             dispatch(actions.changeValue('ready', true));
         } catch (error) { report(dispatch, error); }
         finally { dispatch(actions.changeValue('isLoading', false)); }
     },
-    initLookupUploadLog: () => async (dispatch, getState) => {
+    initLookupUploadLog: (refreshDate = true) => async (dispatch, getState) => {
+        // An open page may cross midnight. Refresh the server business date before
+        // querying logs after an upload/process; init already fetched it once.
+        if (refreshDate) {
+            const date = businessDateOf(await callSoap('hmms', 'getConfig'));
+            dispatch(actions.changeValue('date', date));
+        }
         const date = getState().AutopayTerminateUploadReducer.date;
         const list = parseList(await callSoap('autopay', 'lookupUploadLog', { date }));
         // Retain local files that have not yet been attempted when refreshing server records.
-        const pending = getState().AutopayTerminateUploadReducer.uploadLogList.filter(row => row.uploadFlag);
-        dispatch(actions.changeValue('uploadLogList', [...pending, ...list]));
+        const local = getState().AutopayTerminateUploadReducer.uploadLogList;
+        const pending = local.filter(row => row.uploadFlag);
+        const saved = local.filter(row => !row.id && row.atdId && row.uploadStatus === 'UPLOAD_SUCCESS' &&
+            !list.some(item => String(item.atdId) === String(row.atdId)));
+        dispatch(actions.changeValue('uploadLogList', [...pending, ...saved, ...list]));
+        if (saved.length) throw new Error('Upload was saved, but its server log was not returned. Refresh the page to reconcile it; do not upload the same file again.');
     },
     appendFile: (_this, file) => (dispatch, getState) => {
         const state = getState().AutopayTerminateUploadReducer;
@@ -95,10 +109,11 @@ const actions = {
                     };
                     const id = await callSoap('manager', 'addAttachmentDetail', { jsonObject: JSON.stringify(attachment) });
                     if (!/^\d+$/.test(id.trim()) || Number(id) <= 0) throw new Error('Attachment save did not return a numeric ID.');
-                    const result = await callSoap('autopay', 'newUploadLog', {
+                    await callSoap('autopay', 'newUploadLog', {
                         fileName: row.fileName, thru: 'D', uploadBy: loginName, status: 'UPLOAD_SUCCESS', atdID: id.trim()
                     });
                     // Legacy newUploadLog returns an empty string on success; Fail: is rejected by callSoap.
+                    update({ uploadStatus: 'UPLOAD_SUCCESS', processStatus: 'UPLOAD_SUCCESS', atdId: id.trim() });
                     dispatch(msgActions.incrementMsg('info', `File '${row.fileName}' uploaded successfully.`));
                 } catch (error) {
                     report(dispatch, new Error(`${row.fileName}: ${error.message}`));
@@ -119,7 +134,8 @@ const actions = {
     },
     toggleStartProcess: () => async (dispatch, getState) => {
         const { homeInfo, AutopayTerminateUploadReducer: state } = getState();
-        if (state.isLoading || !state.ready) return;
+        if (state.isLoading || !state.ready || state.uploadLogList.some(row => row.uploadFlag) ||
+            !state.uploadLogList.some(row => row.id && row.processStatus === 'UPLOAD_SUCCESS')) return;
         dispatch(actions.changeValue('isLoading', true));
         dispatch(actions.changeValue('startBtn', true));
         try {
@@ -141,6 +157,9 @@ const actions = {
         if (state.isLoading) return;
         const row = state.uploadLogList[index];
         if (!row) return;
+        if (!row.id && row.atdId) {
+            report(dispatch, new Error('Refresh the page to retrieve the saved upload log before deleting it.')); return;
+        }
         dispatch(actions.changeValue('isLoading', true));
         try {
             if (row.id) await callSoap('autopay', 'deleteUploadLog', { ppsID: row.id });

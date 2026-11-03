@@ -110,7 +110,7 @@ class AutopayTerminateUploadMain extends React.Component {
                                 <Button size="sm" variant="light" style={{ border: '1px solid gray' }} disabled={isLoading || !ready || !uploadLogList.some(item => item.uploadFlag)} onClick={() => actions.uploadFile(this)}>Upload</Button>
                             </Col>
                             <Col md={3} lg={3}>
-                                <Button size="sm" variant="light" style={{ border: '1px solid gray' }} disabled={isLoading || startBtn || !ready || uploadLogList.some(item => item.uploadFlag) || !uploadLogList.some(item => item.uploadStatus === "UPLOAD_SUCCESS")} onClick={() => actions.toggleStartProcess(this)}>Start</Button>
+                                <Button size="sm" variant="light" style={{ border: '1px solid gray' }} disabled={isLoading || startBtn || !ready || uploadLogList.some(item => item.uploadFlag) || !uploadLogList.some(item => item.id && item.processStatus === "UPLOAD_SUCCESS")} onClick={() => actions.toggleStartProcess(this)}>Start</Button>
                             </Col>
                             <Col md={6} lg={6} style={{ display: "none" }} >
                                 <input type="file" accept={String(attachmentConfig.uploadExtension || "").replace(/\*/g, "").replace(/;/g, ",")} ref={this.fileRef} onChange={(e) => { actions.appendFile(this, e.target.files[0]); e.target.value = ""; }}></input>
